@@ -1,0 +1,30 @@
+module.exports = {
+    HOST: process.env.HOST,
+    USER: String(process.env.SQL_USER),
+    PASSWORD: process.env.MY_SQL_PASSWORD,
+    DB: process.env.DB,
+    dialect: process.env.DIALECT,
+    pool: {
+        max: Number(process.env.POOL_MAX),
+        min: Number(process.env.POOL_MIN),
+        acquire: Number(process.env.POOL_ACQUIRE),
+        idle: Number(process.env.POOL_IDLE)
+    },
+    JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
+    JWT_EXPIRATION_TIME: process.env.JWT_EXPIRATION_TIME,
+    ADMIN_USERNAME: process.env.ADMIN_USERNAME,
+    ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
+    EMAIL_SENDER: process.env.EMAIL_SENDER,
+    SES_REGION: process.env.SES_REGION,
+    SES_ACCESS_KEY: process.env.SES_ACCESS_KEY,
+    SES_SECRET_KEY: process.env.SES_SECRET_KEY,
+    REGION: process.env.REGION,
+    SMTP: process.env.SMTP,
+    AWS_BUCKET_ID: process.env.AWS_BUCKET_ID,
+    AWS_BUCKET_SECRET: process.env.AWS_BUCKET_SECRET,
+    AWS_BUCKET_NAME: process.env.BUCKET_NAME,
+    AWS_MEMBERSHIP_FOLDER: process.env.AWS_MEMBERSHIP_FOLDER,
+    ACCESS_SECRET: process.env.ACCESS_SECRET,
+    HASH_KEY: process.env.HASH_KEY,
+    X_API_KEY : process.env.X_API_KEY
+};
