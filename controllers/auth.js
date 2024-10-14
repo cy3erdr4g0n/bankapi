@@ -13,8 +13,9 @@ exports.login = async (req, res) => {
 
 exports.userLogin = async (req, res)=>{
     try {
-        const { user, token } = await Auth.Users(req.body)
-        res.status(200).json({ user, token })
+        const { token } = await Auth.Users(req.body)
+        console.log(token)
+        res.status(200).json({ token })
     } catch (error) {
         errorHandler(error, res)
     }

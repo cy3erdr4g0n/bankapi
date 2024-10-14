@@ -22,6 +22,7 @@ const Auth = require('./routers/auth.routes');
 const Admin = require('./routers/admin.routes');
 const User = require('./routers/users.routes');
 const transaction = require('./routers/transaction.routes');
+const { PORT } = require('./config/config');
 
 
 app.use('/v1/api/register', RegistrationRoutes);
@@ -32,8 +33,6 @@ app.use('/v1/api/user/', User);
 
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-const PORT = process.env.PORT || 80;
 
 
 app.get('/', (req, res) => {

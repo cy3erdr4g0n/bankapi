@@ -1,10 +1,21 @@
-const Transaction = require('../services/registration.service')
+const transactionService = require('../services/transaction.service')
 
 const { errorHandler } = require('../utils/error')
 
-exports.transfer = ()=>{
+exports.transfer = async (req, res)=>{
     try {
-        
+        const _res = await transactionService.createTransaction(req.body, req.user)
+        res.status(200).json({_res});
+    } catch (error) {
+        errorHandler(error,res)
+    }
+}
+
+exports.getAccountBaance = async (req, res)=>{
+    try {
+        console.log(req.user)
+        const _res = await transactionService.getBalance(req.user)
+        res.status(200).json({ammout : _res});
     } catch (error) {
         errorHandler(error,res)
     }

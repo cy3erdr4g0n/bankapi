@@ -1,9 +1,11 @@
+const { JWT_SECRET_KEY, JWT_EXPIRATION_TIME, ADMIN_JWT_SECRET_KEY } = require('../config/config')
 const db = require('../model')
 const { AppError } = require('../utils/error')
 const Admin = db.Admin
 const Worker = db.workers
 const bcrypt = require('bcrypt')
 const userModels = db.User
+const jwt = require('jsonwebtoken')
 
 class AuthService {
     async loginAdmin(data) {
@@ -35,10 +37,9 @@ class AuthService {
             if (!isValid) {
                 throw new AppError('Invalid Password', 401);
             }
-            user = foundUser;
-            user.password = undefined;
-            const token = user.generateJwtSignedToken();
-            return { user, token };
+            const { userId }= foundUser;
+            const token = jwt.sign({data : userId}, ADMIN_JWT_SECRET_KEY, {expiresIn: JWT_EXPIRATION_TIME});
+            return { token };
         } catch (error) {
             throw error;
         }
@@ -49,23 +50,14 @@ class AuthService {
         try {
             let user;
             const { email, password} = data;
-            if (!username || !password) {
-                throw new AppError('Please provide email, password', 400);
-            }
-            const foundUser = await userModels.findOne({
-                where: { email : email }
-            });
-            if (!foundUser) {
-                throw new AppError('Invalid details', 401);
-            }
+            if (!email || !password) { throw new AppError('Please provide email, password', 400) }
+            const foundUser = await userModels.findOne({where: { email : email }});
+            if (!foundUser) {throw new AppError('Invalid details', 401)}
             const isValid = await bcrypt.compare(password, foundUser.password);
-            if (!isValid) {
-                throw new AppError('Invalid details', 401);
-            }
-            user = foundUser;
-            user.password = undefined;
-            const token = user.generateJwtSignedToken();
-            return { user, token };
+            if (!isValid) {throw new AppError('Invalid details', 401);}
+            const { userId }= foundUser;
+            const token = jwt.sign({data : userId}, JWT_SECRET_KEY, {expiresIn: '1h'});
+            return { token };
         } catch (error) {
             throw error;
         }
@@ -111,8 +103,6 @@ class AuthService {
             
             if (!oldpassword || !password){
     
-                res.status(202).json("Empty detail are not allowed ");
-    
                 throw Error("Empty detail are not allowed ");
     
             }else{
@@ -129,7 +119,6 @@ class AuthService {
                 }
                 const hashedPassword = await bcrypt.hash(password)
                 
-    
             }
 
         } catch (error) {

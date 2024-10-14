@@ -4,11 +4,21 @@ const { errorHandler } = require('../utils/error')
 
 const Registration = new RegistrationService();
 
-exports.bio_data = async(req, res)=>{
+exports.info = async(req, res)=>{
+    try {
+        const data = req.body;
+        const response = await Registration.info(data);
+        res.status(200).send(response);        
+    } catch (error) {
+        errorHandler(error,res)
+    }
+}
+
+exports.bio_data = async(req, res) => {
     try {
         const data = req.body;
         const response = await Registration.bio_data(data);
-        res.status(200).send(response);        
+        res.status(200).send(response);   
     } catch (error) {
         errorHandler(error,res)
     }

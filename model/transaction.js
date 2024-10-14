@@ -12,8 +12,7 @@ const transactionModel = (sequelize, DataTypes) => {
         },
 
         Transaction_Id :{
-
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER(255),
             allowNull: false,
 
         },

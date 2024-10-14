@@ -11,12 +11,11 @@ exports.userIsSignedIn = async (req, res, next) => {
             if (!decoded) {
                 return res.status(401).json({ message: 'Invalid Token' })
             }
-
             req.user = {}
-            req.user.id = decoded.userId
+            req.user = decoded.data
             next()
         } else {
-            return res.status(401).json({ message: 'Unauthorized to access this Route' })
+            return res.status(401).json({ message: 'Unauthorized to access this Route kkk' })
         }
     } catch (error) {
         return res.status(401).json({ message: 'Unauthorized to access this Route' })

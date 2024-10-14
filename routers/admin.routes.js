@@ -47,8 +47,7 @@ router.get('/workers/workerType/', verify_X_API_KEY, authenticatedAdmin, getwork
 router.get('/users', verify_X_API_KEY, authenticatedAdmin, getUsersData)
 
 // check if worker exists
-router.get("/check-username", verify_X_API_KEY, isSignedIn, checkUsername
-);
+router.get("/check-username", verify_X_API_KEY, isSignedIn, checkUsername);
 
 
 module.exports = router;

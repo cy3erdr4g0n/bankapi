@@ -12,12 +12,14 @@ const accountModel = (sequelize, DataTypes) => {
         },
 
         AccountNumber: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER(60),
             allowNull: false,
+            unique : true,
         },
 
         account_type :{
             type: DataTypes.ENUM("Savings", "Current", "Fixed Deposit"),
+            defaultValue : "Savings",
             allowNull: false
         },
 
@@ -28,7 +30,7 @@ const accountModel = (sequelize, DataTypes) => {
         },
          
         AccountBalance: {
-            type: DataTypes.INTEGER(50),
+            type: DataTypes.FLOAT(50),
             allowNull: false,
         },
 

@@ -14,6 +14,10 @@ const UserModel = (sequelize, DataTypes) => {
         title: {
             type: DataTypes.STRING(100),
         },
+        password :{
+            type : DataTypes.STRING(100),
+            allowNull : false
+        },
         firstname: {
             type: DataTypes.STRING(100),
         },
@@ -23,6 +27,22 @@ const UserModel = (sequelize, DataTypes) => {
         },
         lastname: {
             type: DataTypes.STRING(100),
+        },
+        otp : {
+            type: DataTypes.STRING(100),
+            allowNull: true
+        },
+        timeOptExpired : {
+            type: DataTypes.STRING(100),
+            allowNull: true
+        },
+        active : {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+        },
+        DeactivateAccount : {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
         },
         resetPasswordToken : {
             type: DataTypes.STRING,

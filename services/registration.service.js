@@ -1,34 +1,90 @@
 const db = require('../model');
-const { AppError } = require('../utils/error');
+const { AppError, errorHandler } = require('../utils/error');
 const State = db.PoliticalState;
 const Country = db.Country;
 const Lga = db.lga;
+const User = db.User
+const Account = db.Account
+const { validateRegister }= require('../validator/userSignup.validator')
+const { encrypt } = require("../utils/crypto");
+const { validateBiodata } = require('../validator/bioData.validator');
+const account = require('./account');
 
 class RegistrationService {
 
     async info(data){
         try {
-            
+            let name = {}
+            let withMessage = validateRegister(data)
+            if (withMessage.isValid == false){errorHandler(withMessage.errors, res)}
+            const user = await User.findOne({where : { email : email }})
+            if (user){ throw AppError('Invalid Username', 401)}
+            const hashedPassword = await encrypt(data.confirm_password)
+            const newAdmin = await User.create({
+                email : data.email,
+                password : hashedPassword
+            })
+            name = newAdmin
+            name.password = null
+            if (account(name.userId)){
+                return name
+            }
         } catch (error) {
-            errorHandler(error, res);
+            throw error
         }
     }
 
-    async confirm_email(data){
+    async bio_data(data){
         try {
-            
+            const {
+                email,
+                title,
+                firstname,
+                lastname,
+                middlename,
+                dateOFbirth,
+                phone,
+                gender
+            } = data
+            let withMessage = validateBiodata(data)
+            if (withMessage.isValid == false){AppError(withMessage, 401)}
+            const user = await User.findOne({where : { email : email }})
+            if (!user){ throw AppError('Invalid Username', 401)}
+            const result = await User.update(
+                { 
+                  title,
+                  firstname,
+                  lastname,
+                  middlename,
+                  dob : dateOFbirth,
+                  phone,
+                  gender
+                }, 
+                {
+                  where: {
+                    email : email
+                  }
+                }
+              );
+              if (result[0] === 0) {
+                throw AppError('Not updated', 401)
+              } else { 
+                return true
+              }
         } catch (error) {
-            errorHandler(error, res);
+            throw AppError(error, 500)
         }
     }
 
-    async create_username(data){
+    async create_contact(data){
         try {
-            
+            null
         } catch (error) {
-            errorHandler(error, res);
+            throw AppError(error, 500)
         }
     }
+
+    
 
     async countries(){
         const countries = await Country.findAll()

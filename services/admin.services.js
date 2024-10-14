@@ -8,32 +8,23 @@ const Admin = db.Admin
 class AdminService {
     async createworker(data) {
         try {
-
-
             let workers = await worker.findOne({
                 where: {
                     workerMail: data.workerMail
                 }
             })
-
             if (workers) {
                 throw new AppError(`worker with mail: ${data.workerMail} already exists`, 400)
             }
-
-
             workered = await worker.findOne({
                 where: {
                     username: data.username
                 }
             })
-
             if (workered) {
                 throw new AppError(`worker with username: ${data.username} already exists`, 400)
             }
-
-
             worker = await worker.create(data);
-
             return worker;
         } catch (error) {
 

@@ -1,4 +1,4 @@
-const { JWT_SECRET_KEY, ACCESS_SECRET, HASH_KEY } = require('../config/config')
+const { JWT_SECRET_KEY, ACCESS_SECRET, HASH_KEY, X_API_KEY } = require('../config/config')
 const jwt = require('jsonwebtoken')
 const db = require('../model')
 const Admin = db.Admin
