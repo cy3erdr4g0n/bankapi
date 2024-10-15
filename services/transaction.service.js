@@ -67,16 +67,14 @@ class Transaction {
         try {
             if(!data){throw new AppError('invalid detail', 400)}
             null
-        //     const accountName = db.Account.findOne({
-        //         where : {AccountNumber : data }
-        //     }, include : {
-        //             model: db.User,
-        //             as: 'user',
-        //             where : {
-        //                 districtId : leader.leaderId
-        //             }
-        //         }
-        // )
+            const accountNumber = db.Account.findOne({where : {AccountNumber : data }})
+            if (!accountNumber){new AppError("check the account",400);}
+            const accountName = db.User.findOne({ where : { userId : accountNumber.UserId}})
+            return {
+                first_name : accountName.firstname,
+                last_name : accountName.lastname,
+                middle_name : accountName.middlename
+            }
         } catch (error) {
             throw error
         }

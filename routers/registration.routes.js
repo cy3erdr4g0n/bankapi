@@ -12,12 +12,15 @@ const {
      info
     } = require('../controllers/register');
 const { verify_X_API_KEY } = require('../middleware/auth');
+const { userIsSignedIn } = require('../middleware/auth.users');
 
 const router = express.Router();
 
 router.post('/step1', verify_X_API_KEY, info);
 
 router.post('/step2', verify_X_API_KEY, bio_data);
+
+router.post('/updateBio', verify_X_API_KEY, userIsSignedIn)
 
 router.post('/contact-data', verify_X_API_KEY,  contact_data);
 
