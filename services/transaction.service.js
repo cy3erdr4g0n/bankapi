@@ -74,9 +74,9 @@ class Transaction {
 
     async AccountName(data){
         try {
-            const {accountNo} = data
+            const {transfer_to} = data
             if(!accountNo){throw new AppError('invalid detail', 400)}
-            const accountNumber = await db.Account.findOne({where : { AccountNumber : accountNo }})
+            const accountNumber = await db.Account.findOne({where : { AccountNumber : transfer_to }})
             if (!accountNumber){throw new AppError("check the account",400);}
             const accountName = await db.User.findOne({ where : { userId : accountNumber.UserId}})
             if (!accountName){throw new AppError("check the account",400)}
