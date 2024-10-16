@@ -13,7 +13,6 @@ exports.transfer = async (req, res)=>{
 
 exports.getAccountBaance = async (req, res)=>{
     try {
-        console.log(req.user)
         const _res = await transactionService.getBalance(req.user)
         res.status(200).json({ammout : _res});
     } catch (error) {
@@ -23,9 +22,17 @@ exports.getAccountBaance = async (req, res)=>{
 
 exports.getAccountName = async (req, res)=>{
     try {
-        console.log(req.user)
         const _res = await transactionService.AccountName(req.body)
         res.status(200).json({_res});
+    } catch (error) {
+        errorHandler(error,res)
+    }
+}
+
+exports.getTransactionHistory = async (req, res)=>{
+    try {
+        const _res = await transactionService.transferHistory(req.user)
+        res.status(200).json({ transferHistory : _res});
     } catch (error) {
         errorHandler(error,res)
     }
