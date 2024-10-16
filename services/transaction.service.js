@@ -83,6 +83,20 @@ class Transaction {
         }
     }
 
+    async getMYaccName(userId){
+        try{
+            if (!userId){throw new AppError('login', 400)}
+            const accountName = await db.Account.findOne({where : { userId : userId}})
+            return {
+                first_name : accountName.firstname,
+                last_name : accountName.lastname,
+                middle_name : accountName.middlename
+            }
+        } catch(error){
+            throw error
+        }
+    }
+
     async AccountName(data){
         try {
             const {transfer_to} = data

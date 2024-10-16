@@ -56,7 +56,7 @@ class UserService {
       if (withMessage.isValid == false) {
         AppError(withMessage, 401);
       }
-      if (!user) {throw AppError("login", 401);}
+      if (!userId) {throw AppError("login", 401);}
       const result = await db.User.update(
         {
           title,
