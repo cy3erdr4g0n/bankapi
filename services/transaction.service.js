@@ -13,31 +13,31 @@ class Transaction {
             const { transaction_amount, transaction_type, transfer_to, description } = data;
             if (!userId){new AppError('login', 400)}
             const account = await db.Account.findOne({where : { UserId : userId}})
-            if (transaction_amount <= 50){AppError("Transaction amount must be greater than 0",400);}
-            if (transaction_type !== "withdrawal" && transaction_type !== "transfer"){new AppError("Transaction type must be withdrawal or transfer",400);}
+            if (parseFloat(transaction_amount) <= parseFloat(50)){ throw new AppError("Transaction amount must be greater than 50", 400);}
+            if (transaction_type !== "withdrawal" && transaction_type !== "transfer"){ throw new AppError("Transaction type must be withdrawal or transfer",400);}
             if (account) {if (transaction_type === "withdrawal"){account.AccountBalance  = parseInt(account.AccountBalance ) - parseInt(transaction_amount)}
-            if (account.AccountBalance <= 50) { new AppError("Insufficient funds",400);}
-            else if (transaction_type === "transfer") {account.AccountBalance =parseInt(account.AccountBalance) - parseInt(transaction_amount);}
-            if (account.AccountBalance <= 50){ new AppError("Insufficient funds",400)}
+            if (account.AccountBalance < 50) { throw new AppError("Insufficient funds",400);}
+            else if (transaction_type === "transfer") {account.AccountBalance = parseInt(account.AccountBalance) - parseInt(transaction_amount);}
+            if (account.AccountBalance <= 50){ throw new AppError("Insufficient funds",400)}
             const transferToAccount = await db.Account.findOne({where : { AccountNumber: transfer_to}})
             if (transferToAccount) {
                 transferToAccount.AccountBalance = parseInt(transferToAccount.AccountBalance) + parseInt(transaction_amount);
-                console.log(transferToAccount)
                 await transferToAccount.save()
             }else{
-                AppError("Account not found",400)
+                throw new AppError("Account not found",400)
             }
             await account.save()
             const generateTransferId = Math.floor(10000 + Math.random() * 900)
             const transaction = transferHistory.create({
                 Transaction_Id : generateTransferId,
-                UserId : userId,
+                UserId : account.UserId,
                 Account_id : transferToAccount.UserId,
                 Transaction_message : description,
                 Transaction_amount : transaction_amount,
                 Transaction_Type : transaction_type,
-
+                
             })
+            return true
           }
         } catch (error) {
             throw error

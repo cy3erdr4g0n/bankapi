@@ -6,11 +6,11 @@ class AppError extends Error {
 }
 
 const errorHandler = async (err, res) => {
+  const statusCode = err.statusCode || 500;
 
-  res.status(500).json({
+  res.status(statusCode).json({
     message: err.message,
   });
-  
 };
 
 module.exports = {
