@@ -1,4 +1,5 @@
 const db = require('../model');
+const { validateBiodata } = require("../validator/bioData.validator");
 
 
 const { AppError } = require('../utils/error');
@@ -10,7 +11,7 @@ class UserService {
     async getUserData(id) {
         try {
             const User = await db.User.findOne({
-                where: { membershipId: id },
+                where: { userId: id },
                 include: [
                     {
                         model: db.User
@@ -37,6 +38,50 @@ class UserService {
             throw error;
         }
     }
+
+
+  async update_bio_data(data, userId) {
+    try {
+      const {
+        title,
+        firstname,
+        lastname,
+        middlename,
+        dateOFbirth,
+        phone,
+        gender,
+      } = data;
+      let withMessage = validateBiodata(data);
+
+      if (withMessage.isValid == false) {
+        AppError(withMessage, 401);
+      }
+      if (!user) {throw AppError("login", 401);}
+      const result = await db.User.update(
+        {
+          title,
+          firstname,
+          lastname,
+          middlename,
+          dob: dateOFbirth,
+          phone,
+          gender,
+        },
+        {
+          where: {
+            userId : userId,
+          },
+        }
+      );
+      if (result[0] === 0) {
+        throw AppError("Not updated", 401);
+      } else {
+        return true;
+      }
+    } catch (error) {
+      throw AppError(error, 500);
+    }
+  }
 
 
 }
