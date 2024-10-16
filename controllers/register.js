@@ -8,7 +8,7 @@ exports.info = async(req, res)=>{
     try {
         const data = req.body;
         const response = await Registration.info(data);
-        res.status(200).send(response);        
+        res.status(200).json({response});        
     } catch (error) {
         errorHandler(error,res)
     }
@@ -18,7 +18,7 @@ exports.bio_data = async(req, res) => {
     try {
         const data = req.body;
         const response = await Registration.bio_data(data);
-        res.status(200).send(response);   
+        res.status(200).json({response});   
     } catch (error) {
         errorHandler(error,res)
     }
@@ -28,7 +28,7 @@ exports.contact_data = async (req, res)=>{
     try {
         const data = req.body;
         const response = await Registration.contact_data(data);
-        res.status(200).send(response);
+        res.status(200).json({response});
     } catch (error) {
         errorHandler(error,res)
     }
