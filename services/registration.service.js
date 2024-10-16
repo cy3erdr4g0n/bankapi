@@ -49,10 +49,10 @@ class RegistrationService {
         phone,
         gender,
       } = data;
-      let withMessage = validateBiodata(data);
-      if (withMessage.isValid == false) {
-       new AppError(withMessage, 401);
-      }
+      // let withMessage = validateBiodata(data);
+      // if (withMessage.isValid == false) {
+      //  new AppError(withMessage, 401);
+      // }
       const user = await User.findOne({ where: { email: email } });
       if (!user) {
         throw new AppError("Invalid email", 401);
