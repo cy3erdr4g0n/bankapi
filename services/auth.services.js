@@ -55,9 +55,11 @@ class AuthService {
             if (!foundUser) {throw new AppError('Invalid details', 401)}
             const isValid = await bcrypt.compare(password, foundUser.password);
             if (!isValid) {throw new AppError('Invalid details', 401);}
-            const { userId }= foundUser;
+            const userId = foundUser.userId;
+            user = foundUser
+            user.password = null
             const token = jwt.sign({data : userId}, JWT_SECRET_KEY, {expiresIn: '1h'});
-            return { token };
+            return { user, token };
         } catch (error) {
             throw error;
         }
