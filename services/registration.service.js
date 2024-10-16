@@ -20,7 +20,7 @@ class RegistrationService {
       }
       const user = await User.findOne({ where: { email: email } });
       if (user) {
-        throw AppError("Invalid Username", 401);
+        throw new AppError("Invalid Username", 401);
       }
       const hashedPassword = await encrypt(data.confirm_password);
       const newAdmin = await User.create({
@@ -49,13 +49,13 @@ class RegistrationService {
         phone,
         gender,
       } = data;
-      let withMessage = validateBiodata(data);
-      if (withMessage.isValid == false) {
-        AppError(withMessage, 401);
-      }
+      // let withMessage = validateBiodata(data);
+      // if (withMessage.isValid == false) {
+      //   throw new AppError(withMessage, 401);
+      // }
       const user = await User.findOne({ where: { email: email } });
       if (!user) {
-        throw AppError("Invalid Username", 401);
+        throw new AppError("Invalid Username", 401);
       }
       const result = await User.update(
         {
@@ -74,12 +74,12 @@ class RegistrationService {
         }
       );
       if (result[0] === 0) {
-        throw AppError("Not updated", 401);
+        throw new AppError("Not updated", 401);
       } else {
         return true;
       }
     } catch (error) {
-      throw AppError(error, 500);
+      throw new AppError(error, 500);
     }
   }
 
@@ -87,7 +87,7 @@ class RegistrationService {
     try {
       null;
     } catch (error) {
-      throw AppError(error, 500);
+      throw new AppError(error, 500);
     }
   }
 
