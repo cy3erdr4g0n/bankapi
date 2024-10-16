@@ -4,8 +4,8 @@ const { errorHandler } = require('../utils/error')
 
 exports.login = async (req, res) => {
     try {
-        const { user, token } = await Auth.loginAdmin(req.body)
-        res.status(200).json({ user, token })
+        const {  token } = await Auth.loginAdmin(req.body)
+        res.status(200).json({ token })
     } catch (error) {
         errorHandler(error, res)
     }
