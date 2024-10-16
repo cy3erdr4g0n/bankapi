@@ -20,6 +20,15 @@ exports.getAccountBaance = async (req, res)=>{
     }
 }
 
+exports.myacctNo = async (req, res)=>{
+    try {
+        const _res = await transactionService.getMYaccNo(req.user)
+        res.status(200).json({acctNo : _res});
+    } catch (error) {
+        errorHandler(error,res)
+    }
+}
+
 exports.getAccountName = async (req, res)=>{
     try {
         const _res = await transactionService.AccountName(req.body)

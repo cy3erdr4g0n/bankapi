@@ -1,3 +1,4 @@
+const { transfer } = require('../controllers/transtaction');
 const db = require('../model');
 const { AppError } = require('../utils/error');
 const transfersHistory = db.Transaction
@@ -72,10 +73,20 @@ class Transaction {
         }
     }
 
+    async getMYaccNo(userId){
+        try{
+            if (!userId){throw new AppError('login', 400)}
+            const getBalance = await db.Account.findOne({where : { userId : userId}})
+            return  getBalance.AccountNumber
+        } catch(error){
+            throw error
+        }
+    }
+
     async AccountName(data){
         try {
             const {transfer_to} = data
-            if(!accountNo){throw new AppError('invalid detail', 400)}
+            if(!transfer_to){throw new AppError('invalid detail', 400)}
             const accountNumber = await db.Account.findOne({where : { AccountNumber : transfer_to }})
             if (!accountNumber){throw new AppError("check the account",400);}
             const accountName = await db.User.findOne({ where : { userId : accountNumber.UserId}})
