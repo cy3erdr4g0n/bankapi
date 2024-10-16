@@ -86,7 +86,7 @@ class Transaction {
     async getMYaccName(userId){
         try{
             if (!userId){throw new AppError('login', 400)}
-            const accountName = await db.Account.findOne({where : { userId : userId}})
+            const accountName = await db.User.findOne({where : { userId : userId}})
             return {
                 first_name : accountName.firstname,
                 last_name : accountName.lastname,
