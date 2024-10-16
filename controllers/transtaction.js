@@ -32,7 +32,7 @@ exports.getAccountName = async (req, res)=>{
 exports.getTransactionHistory = async (req, res)=>{
     try {
         const _res = await transactionService.transferHistory(req.user)
-        res.status(200).json({ transferHistory : _res});
+        res.status(200).json({ transferHistory: _res});
     } catch (error) {
         errorHandler(error,res)
     }

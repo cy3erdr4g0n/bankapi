@@ -65,7 +65,7 @@ class Transaction {
     async getBalance(userId){
         try{
             if (!userId){throw new AppError('login', 400)}
-            const getBalance = await db.Account.findOne({where : { UserId : userId}})
+            const getBalance = await db.Account.findOne({where : { userId : userId}})
             return  getBalance.AccountBalance
         } catch(error){
             throw error
@@ -74,11 +74,12 @@ class Transaction {
 
     async AccountName(data){
         try {
-            if(!data){throw new AppError('invalid detail', 400)}
-            null
-            const accountNumber = db.Account.findOne({where : {AccountNumber : data }})
-            if (!accountNumber){new AppError("check the account",400);}
-            const accountName = db.User.findOne({ where : { userId : accountNumber.UserId}})
+            const {accountNo} = data
+            if(!accountNo){throw new AppError('invalid detail', 400)}
+            const accountNumber = await db.Account.findOne({where : { AccountNumber : accountNo }})
+            if (!accountNumber){throw new AppError("check the account",400);}
+            const accountName = await db.User.findOne({ where : { userId : accountNumber.UserId}})
+            if (!accountName){throw new AppError("check the account",400)}
             return {
                 first_name : accountName.firstname,
                 last_name : accountName.lastname,
