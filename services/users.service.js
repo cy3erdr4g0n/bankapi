@@ -19,7 +19,7 @@ class UserService {
                 ]
             });
             if (!User) {
-                throw new AppError('User not found', 404);
+                throw  AppError('User not found', 404);
             }
             return User;
         } catch (error) {

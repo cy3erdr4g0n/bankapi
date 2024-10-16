@@ -4,7 +4,8 @@ const Validator = require("validator");
  
 
 const  validateBiodata = (body)=>{
-    console.log({title, firstname, lastname, middlename, dateOFbirth, gender, phone} = body)
+    const {title, firstname, lastname, middlename, dateOFbirth, gender, phone} = body;
+    
         let errors = {};
 
         body.title  = !isEmpty(body.title) ? body.title : "";

@@ -4,10 +4,10 @@ const State = db.PoliticalState;
 const Country = db.Country;
 const Lga = db.lga;
 const User = db.User;
-const Account = db.Account;
+// const Account = db.Account;
 const { validateRegister } = require("../validator/userSignup.validator");
 const { encrypt } = require("../utils/crypto");
-const { validateBiodata } = require("../validator/bioData.validator");
+// const { validateBiodata } = require("../validator/bioData.validator");
 const account = require("./account");
 
 class RegistrationService {
@@ -49,13 +49,10 @@ class RegistrationService {
         phone,
         gender,
       } = data;
-      // let withMessage = validateBiodata(data);
-      // if (withMessage.isValid == false) {
-      //   throw new AppError(withMessage, 401);
-      // }
+
       const user = await User.findOne({ where: { email: email } });
       if (!user) {
-        throw new AppError("Invalid Username", 401);
+        throw new AppError("Invalid email", 401);
       }
       const result = await User.update(
         {

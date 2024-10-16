@@ -2,6 +2,8 @@ const db = require('../model');
 const { AppError } = require('../utils/error');
 const transferHistory = db.Transaction
 const userModels = db.User
+const { Op } = require('sequelize');
+
 
 class Transaction {
 
@@ -45,8 +47,14 @@ class Transaction {
     async transferHistory(userId){
         try {
             const transferHistory = await transferHistory.findAll({
-                where : { userId : userId }
+                where : {
+                    [Op.or]: [
+                        { UserId : userId },
+                        { Account_id : userId } 
+                      ]              
+                }
             })
+            console.log(transferHistory)
             return transferHistory
         } catch (error) {
             throw error
